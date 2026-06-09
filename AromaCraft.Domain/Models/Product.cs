@@ -1,4 +1,5 @@
 using System;
+using AromaCraft.Domain.Exceptions;
 
 namespace AromaCraft.Domain.Models;
 
@@ -20,16 +21,16 @@ public class Product
         
     }
 
-    public Product Create(string name, decimal price, int wieghtInGrams)
+    public static Product Create(string name, decimal price, int wieghtInGrams)
     {
         if (string.IsNullOrWhiteSpace(name) || name.Length > 255)
-            throw new Exception(); // I need to create a domain exception for this business case
+            throw new DomainException("Name can't be empty or exceed 255 characters."); 
 
         if (price <= 0)
-            throw new Exception();
+            throw new DomainException("Price can't be 0 or below.");
 
         if (wieghtInGrams < 0)
-            throw new Exception(); // Left possibility for zero in case that the employee didn't know the exact wieght therefore left as 0
+            throw new DomainException("Wieght can't be below 0."); // Left possibility for zero in case that the employee didn't know the exact wieght therefore left as 0
 
         return new Product(name, price, wieghtInGrams);
     }
@@ -37,7 +38,7 @@ public class Product
     public void SetName(string newName)
     {
         if (string.IsNullOrWhiteSpace(newName) || newName.Length > 255)
-            throw new Exception();
+            throw new DomainException("Name can't be empty or exceed 255 characters.");
 
         Name = newName;
     }
@@ -45,7 +46,7 @@ public class Product
     public void SetPrice(decimal newPrice)
     {
         if(newPrice <= 0)
-            throw new Exception();
+            throw new DomainException("Price can't be 0 or below.");
 
         Price = newPrice;
     }
@@ -53,7 +54,7 @@ public class Product
     public void SetWeight(int newWeight)
     {
         if (newWeight < 0)
-            throw new Exception();
+            throw new DomainException("Wieght can't be below 0.");
 
         WieghtInGrams = newWeight;
     }
