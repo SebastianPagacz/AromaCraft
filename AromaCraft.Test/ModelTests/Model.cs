@@ -7,6 +7,8 @@ namespace AromaCraft.Domain.UnitTests.ModelTests;
 
 public class Model
 {
+    // Model creation tests
+
     [Fact]
     public void CreateProduct_Returns_CorrectValue()
     {
@@ -60,6 +62,67 @@ public class Model
         var result = () => Product.Create(name, price, weightInGrams);
         // Assert
         var exception = Assert.Throws<DomainException>(result);
+        Assert.Equal("Weight can't be below 0.", exception.Message);
+    }
+    
+    // Model manipulation tests
+    [Fact]
+    public void ChangeMethods_Returns_CorrectValue()
+    {
+        // Arrange
+        var product = Product.Create("kawa", 19.99m, 1000);
+        string name = "Czarna kawa";
+        decimal price = 20.99m;
+        int weight = 100;
+        // Act
+        product.SetName(name);
+        product.SetPrice(price);
+        product.SetWeight(weight);
+        // Assert
+        Assert.Multiple(
+            () => Assert.Equal(name, product.Name),
+            () => Assert.Equal(price, product.Price),
+            () => Assert.Equal(weight, product.WeightInGrams)
+        );
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    public void SetName_Returns_CorrectValue(string name)
+    {
+        // Arrange
+        var product = Product.Create("kawa", 19.99m, 1000);
+        // Act
+        var action = () => product.SetName(name);
+        // Assert
+        var exception = Assert.Throws<DomainException>(action);
+        Assert.Equal("Name can't be empty or exceed 255 characters.", exception.Message);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-14.99)]
+    public void SetPrice_Returns_CorrectValue(decimal price)
+    {
+        // Arrange
+        var product = Product.Create("kawa", 19.99m, 1000);
+        // Act
+        var action = () => product.SetPrice(price);
+        // Assert
+        var exception = Assert.Throws<DomainException>(action);
+        Assert.Equal("Price can't be 0 or below.", exception.Message);
+    }
+
+    [Fact]
+    public void SetWeight_Returns_CorrectVale()
+    {
+        // Arrange
+        var product = Product.Create("kawa", 19.99m, 1000);
+        // Act
+        var action = () => product.SetWeight(-100);
+        // Assert
+        var exception = Assert.Throws<DomainException>(action);
         Assert.Equal("Weight can't be below 0.", exception.Message);
     }
 }

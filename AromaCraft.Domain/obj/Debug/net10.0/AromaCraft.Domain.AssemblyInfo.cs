@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AromaCraft.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5300b960e253db2685d2978796817f32d16a30f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04451e7f08ac89e8273920024005f1eab681f078")]
 [assembly: System.Reflection.AssemblyProductAttribute("AromaCraft.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AromaCraft.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
