@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="AromaCraft.Application/AromaCraft.Application.csproj" />
   <Project Path="AromaCraft.Domain/AromaCraft.Domain.csproj" />
   <Project Path="AromaCraft.Test/AromaCraft.Domain.UnitTests.csproj" />
 </Solution>
