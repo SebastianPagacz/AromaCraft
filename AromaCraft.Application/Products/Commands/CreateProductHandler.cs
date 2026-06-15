@@ -10,6 +10,6 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Result
     {
         var newProduct = Product.Create(request.Name, request.Price, request.WeightInGrams);
 
-        return Result<Guid>.Success(newProduct.Id, "Product created.");
+        return Result<Guid>.Success(newProduct.Value.Id, $"Product with Id: {newProduct.Value.Id} has been created.");
     }
 }

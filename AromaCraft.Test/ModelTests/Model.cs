@@ -16,7 +16,7 @@ public class Model
         var result = Product.Create("Kawa", 12.00m, 1000);
         var mockProduct = Product.Create("Kawa", 12.00m, 1000);
         // Assert
-        Assert.Equal(mockProduct.Name, result.Name); 
+        Assert.Equal(mockProduct.Value.Name, result.Value.Name); 
     }
 
     [Fact]
@@ -24,10 +24,9 @@ public class Model
     {
         // Arrange & Act
         string name = new string('a', 256);
-        var result = () => Product.Create(name, 12.50m, 500);
+        var result = Product.Create(name, 12.50m, 500);
         // Assert
-        var exception = Assert.Throws<DomainException>(result);
-        Assert.Equal("Name can't be empty or exceed 255 characters.", exception.Message);
+        Assert.Equal("Name can't be empty or exceed 255 characters.", result.Message);
     }
 
     [Theory]
@@ -36,10 +35,9 @@ public class Model
     public void CreateProduct_Returns_NameDomainException(string name, decimal price, int weightInGrams)
     {
         // Arrange & Act
-        var result = () => Product.Create(name, price, weightInGrams); // I don't understand why making this a annonymus function makes it work
+        var result = Product.Create(name, price, weightInGrams);
         // Assert
-        var exception = Assert.Throws<DomainException>(result);
-        Assert.Equal("Name can't be empty or exceed 255 characters.", exception.Message);
+        Assert.Equal("Name can't be empty or exceed 255 characters.", result.Message);
     }
 
     [Theory]
@@ -48,10 +46,9 @@ public class Model
     public void CreateProduct_Returns_PriceDomainException(string name, decimal price, int weightInGrams)
     {
         // Arrange & Act
-        var result = () => Product.Create(name, price, weightInGrams);
+        var result = Product.Create(name, price, weightInGrams);
         // Assert
-        var exception = Assert.Throws<DomainException>(result);
-        Assert.Equal("Price can't be 0 or below.", exception.Message);
+        Assert.Equal("Price can't be 0 or below.", result.Message);
     }
 
     [Theory]
@@ -59,10 +56,9 @@ public class Model
     public void CreateProduct_Returns_weightDomainException(string name, decimal price, int weightInGrams)
     {
         // Arrange & Act
-        var result = () => Product.Create(name, price, weightInGrams);
+        var result = Product.Create(name, price, weightInGrams);
         // Assert
-        var exception = Assert.Throws<DomainException>(result);
-        Assert.Equal("Weight can't be below 0.", exception.Message);
+        Assert.Equal("Weight can't be negative.", result.Message);
     }
     
     // Model manipulation tests
@@ -75,14 +71,14 @@ public class Model
         decimal price = 20.99m;
         int weight = 100;
         // Act
-        product.SetName(name);
-        product.SetPrice(price);
-        product.SetWeight(weight);
+        product.Value.SetName(name);
+        product.Value.SetPrice(price);
+        product.Value.SetWeight(weight);
         // Assert
         Assert.Multiple(
-            () => Assert.Equal(name, product.Name),
-            () => Assert.Equal(price, product.Price),
-            () => Assert.Equal(weight, product.WeightInGrams)
+            () => Assert.Equal(name, product.Value.Name),
+            () => Assert.Equal(price, product.Value.Price),
+            () => Assert.Equal(weight, product.Value.WeightInGrams)
         );
     }
 
@@ -94,10 +90,9 @@ public class Model
         // Arrange
         var product = Product.Create("kawa", 19.99m, 1000);
         // Act
-        var action = () => product.SetName(name);
+        var result = product.Value.SetName(name);
         // Assert
-        var exception = Assert.Throws<DomainException>(action);
-        Assert.Equal("Name can't be empty or exceed 255 characters.", exception.Message);
+        Assert.Equal("Name can't be empty or exceed 255 characters.", result.Message);
     }
 
     [Theory]
@@ -108,10 +103,9 @@ public class Model
         // Arrange
         var product = Product.Create("kawa", 19.99m, 1000);
         // Act
-        var action = () => product.SetPrice(price);
+        var result = product.Value.SetPrice(price);
         // Assert
-        var exception = Assert.Throws<DomainException>(action);
-        Assert.Equal("Price can't be 0 or below.", exception.Message);
+        Assert.Equal("Price can't be 0 or below.", result.Message);
     }
 
     [Fact]
@@ -120,9 +114,8 @@ public class Model
         // Arrange
         var product = Product.Create("kawa", 19.99m, 1000);
         // Act
-        var action = () => product.SetWeight(-100);
+        var result = product.Value.SetWeight(-100);
         // Assert
-        var exception = Assert.Throws<DomainException>(action);
-        Assert.Equal("Weight can't be below 0.", exception.Message);
+        Assert.Equal("Weight can't be negative.", result.Message);
     }
 }

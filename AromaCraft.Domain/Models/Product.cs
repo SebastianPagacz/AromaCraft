@@ -21,41 +21,47 @@ public class Product
         
     }
 
-    public static Product Create(string name, decimal price, int weightInGrams)
+    public static Result<Product> Create(string name, decimal price, int weightInGrams)
     {
         if (string.IsNullOrWhiteSpace(name) || name.Length > 255)
-            throw new DomainException("Name can't be empty or exceed 255 characters."); 
+            return Result<Product>.Fail("Name can't be empty or exceed 255 characters.");
 
         if (price <= 0)
-            throw new DomainException("Price can't be 0 or below.");
+            return Result<Product>.Fail("Price can't be 0 or below.");
 
         if (weightInGrams < 0)
-            throw new DomainException("Weight can't be below 0."); // Left possibility for zero in case that the employee didn't know the exact weight therefore left as 0
+            return Result<Product>.Fail("Weight can't be negative."); // Left possibility for zero in case that the employee didn't know the exact weight therefore left as 0
 
-        return new Product(name, price, weightInGrams);
+        return Result<Product>.Success(new Product(name, price, weightInGrams), "Product created successfuly.");
     }
 
-    public void SetName(string newName)
+    public Result<Product> SetName(string newName)
     {
         if (string.IsNullOrWhiteSpace(newName) || newName.Length > 255)
-            throw new DomainException("Name can't be empty or exceed 255 characters.");
+            return Result<Product>.Fail("Name can't be empty or exceed 255 characters.");
 
         Name = newName;
+
+        return Result<Product>.Success(this, "Product modified successfuly.");
     }
 
-    public void SetPrice(decimal newPrice)
+    public Result<Product> SetPrice(decimal newPrice)
     {
         if(newPrice <= 0)
-            throw new DomainException("Price can't be 0 or below.");
+            return Result<Product>.Fail("Price can't be 0 or below.");
 
         Price = newPrice;
+
+        return Result<Product>.Success(this, "Product modified successfuly.");
     }
 
-    public void SetWeight(int newWeight)
+    public Result<Product> SetWeight(int newWeight)
     {
         if (newWeight < 0)
-            throw new DomainException("Weight can't be below 0.");
+            return Result<Product>.Fail("Weight can't be negative.");
 
         WeightInGrams = newWeight;
+
+        return Result<Product>.Success(this, "Product modified successfuly.");
     }
 }

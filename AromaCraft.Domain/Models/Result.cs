@@ -5,9 +5,10 @@ namespace AromaCraft.Domain.Models;
 
 public record Result<T>
 {
-    public bool IsSuccess { get; private set; }
-    public T Value { get; private set; }
-    public string Message { get; private set; } = string.Empty;
+    public bool IsSuccess { get; }
+    public bool IsFailed => !IsSuccess;
+    public T Value { get; }
+    public string Message { get; } = string.Empty;
 
     private Result() { }
     private Result(bool isSuccess, T value, string message)
@@ -17,13 +18,19 @@ public record Result<T>
         Message = message;
     }
 
-    public static Result<T> Success(T value, string message) // I don't think such level of encapsulation is required. I think just a basic record with fields would be sufficient
+    private Result(bool isSuccess, string message)
+    {
+        IsSuccess = isSuccess;
+        Message = message;
+    }
+
+    public static Result<T> Success(T value, string message)
     {
         return new Result<T>(true, value, message);
     }
 
-    public static Result<T> Fail(T value, string message) // I don't think such level of encapsulation is required. I think just a basic record with fields would be sufficient
+    public static Result<T> Fail(string message)
     {
-        return new Result<T>(true, value, message);
+        return new Result<T>(false, message);
     }
 }
