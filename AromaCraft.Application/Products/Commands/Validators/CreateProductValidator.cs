@@ -9,12 +9,15 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
     {
         RuleFor(p => p.Name)
             .MaximumLength(255)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Name can't be empty or longer than 255 characters.");
 
         RuleFor(p => p.Price)
-            .GreaterThan(0);
+            .GreaterThan(0)
+            .WithMessage("Price can't be 0 or below.");
 
         RuleFor(p => p.WeightInGrams)
-            .GreaterThanOrEqualTo(0);
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Weight can't be negative.");
     }
 }
