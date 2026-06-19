@@ -32,7 +32,7 @@ public class Product
         if (weightInGrams < 0)
             return Result<Product>.Fail("Weight can't be negative."); // Left possibility for zero in case that the employee didn't know the exact weight therefore left as 0
 
-        return Result<Product>.Success(new Product(name, price, weightInGrams), "Product created successfuly.");
+        return Result<Product>.Success(new Product(name, price, weightInGrams));
     }
 
     public Result<Product> SetName(string newName)
@@ -42,7 +42,7 @@ public class Product
 
         Name = newName;
 
-        return Result<Product>.Success(this, "Product modified successfuly.");
+        return Result<Product>.Success(this);
     }
 
     public Result<Product> SetPrice(decimal newPrice)
@@ -52,7 +52,7 @@ public class Product
 
         Price = newPrice;
 
-        return Result<Product>.Success(this, "Product modified successfuly.");
+        return Result<Product>.Success(this);
     }
 
     public Result<Product> SetWeight(int newWeight)
@@ -62,6 +62,6 @@ public class Product
 
         WeightInGrams = newWeight;
 
-        return Result<Product>.Success(this, "Product modified successfuly.");
+        return Result<Product>.Success(this);
     }
 }

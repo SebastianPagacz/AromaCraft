@@ -11,11 +11,10 @@ public record Result<T>
     public string Message { get; } = string.Empty;
 
     private Result() { }
-    private Result(bool isSuccess, T value, string message)
+    private Result(bool isSuccess, T value)
     {
         IsSuccess = isSuccess;
         Value = value;
-        Message = message;
     }
 
     private Result(bool isSuccess, string message)
@@ -24,9 +23,9 @@ public record Result<T>
         Message = message;
     }
 
-    public static Result<T> Success(T value, string message)
+    public static Result<T> Success(T value)
     {
-        return new Result<T>(true, value, message);
+        return new Result<T>(true, value);
     }
 
     public static Result<T> Fail(string message)

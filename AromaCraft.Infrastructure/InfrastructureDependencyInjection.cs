@@ -1,4 +1,7 @@
-﻿using AromaCraft.Infrastructure.Context;
+﻿using AromaCraft.Domain.Models;
+using AromaCraft.Domain.Repository;
+using AromaCraft.Infrastructure.Context;
+using AromaCraft.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +14,8 @@ public static class InfrastructureDependencyInjection
         services.AddDbContext<AppDbContext>(o => 
             o.UseInMemoryDatabase("TestDb"));
 
+        services.AddScoped<IRepository<Product>, ProductRepository>();
+        
         return services;
     }
 }
