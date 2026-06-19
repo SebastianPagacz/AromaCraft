@@ -15,6 +15,8 @@ public static class InfrastructureDependencyInjection
             o.UseInMemoryDatabase("TestDb"));
 
         services.AddScoped<IRepository<Product>, ProductRepository>();
+
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
         
         return services;
     }
